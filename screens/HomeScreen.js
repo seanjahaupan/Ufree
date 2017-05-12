@@ -20,6 +20,8 @@ export default class HomeScreen extends React.Component {
     },
   };
 
+  state = {available: true}
+
   render() {
     return (
       <View style={styles.container}>
@@ -69,9 +71,12 @@ export default class HomeScreen extends React.Component {
 
         <View style={styles.tabBarInfoContainer}>
           <Text style={styles.tabBarInfoText}>
-            This is a tab bar. You can edit it in:
-            <Text>Continuation</Text>
+            Available
           </Text>
+          <Switch 
+            value = {this.state.available}
+            onValueChange={(value) => this.setState({available: value})}
+          />
         </View>
       </View>
     );
@@ -176,9 +181,11 @@ const styles = StyleSheet.create({
         elevation: 20,
       },
     }),
-    alignItems: 'center',
+    justifyContent: 'space-around',
+    alignItems:'center',
     backgroundColor: '#fbfbfb',
     paddingVertical: 20,
+    flexDirection: 'row'
   },
   tabBarInfoText: {
     fontSize: 17,
