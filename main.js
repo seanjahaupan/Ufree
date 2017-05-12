@@ -4,6 +4,11 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { NavigationProvider, StackNavigation } from '@expo/ex-navigation';
 import { FontAwesome } from '@expo/vector-icons';
 
+import firebase from 'firebase';
+import ReduxThunk from 'redux-thunk';
+import reducers from './reducers';
+
+
 import Router from './navigation/Router';
 import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 
@@ -14,6 +19,15 @@ class AppContainer extends React.Component {
 
   componentWillMount() {
     this._loadAssetsAsync();
+    const config = {
+      apiKey: "AIzaSyAd5hMEa3j5TTgxbcaszv4g4Jxj356A_Vg",
+      authDomain: "ufree-82308.firebaseapp.com",
+      databaseURL: "https://ufree-82308.firebaseio.com",
+      projectId: "ufree-82308",
+      storageBucket: "ufree-82308.appspot.com",
+      messagingSenderId: "975253816135"
+    };
+    firebase.initializeApp(config);
   }
 
   async _loadAssetsAsync() {
