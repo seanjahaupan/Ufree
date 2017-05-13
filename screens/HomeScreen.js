@@ -25,6 +25,17 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <View style={styles.tabBarInfoContainer}>
+          <Text style={styles.tabBarInfoText}>
+            Available
+          </Text>
+          <Switch 
+            value = {this.state.available}
+            onValueChange={(value) => this.setState({available: value})}
+          />
+        </View>
+
+
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>
@@ -69,15 +80,7 @@ export default class HomeScreen extends React.Component {
           </View>
         </ScrollView>
 
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>
-            Available
-          </Text>
-          <Switch 
-            value = {this.state.available}
-            onValueChange={(value) => this.setState({available: value})}
-          />
-        </View>
+        
       </View>
     );
   }
@@ -166,14 +169,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
+    //position: 'absolute',
+    bottom: 1,
     left: 0,
     right: 0,
     ...Platform.select({
       ios: {
         shadowColor: 'black',
-        shadowOffset: { height: -3 },
+        shadowOffset: { height: +5 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
       },
