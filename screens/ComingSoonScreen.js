@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, AsyncStorage } from 'react-native';
+import { Button } from 'react-native-elements';
 
 class ComingSoonScreen extends Component{
 
   render() {
     return(
-      <View style = {styles.comingSoonStyle}>
-        <Text style = {styles.comingSoonText}>
-          Coming Soon!!
-        </Text>
-      </View>
+        <View style = {styles.comingSoonStyle}>
+          <Text style = {styles.comingSoonText}>
+            Coming Soon!! fuck
+          </Text>
+          <Button 
+          title = 'log out'
+          onPress = {() => AsyncStorage.removeItem('fb_token')}/>
+        </View>
     );
   }
 }
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
+  
   comingSoonStyle:{
     flex: 1,
     justifyContent: 'center',

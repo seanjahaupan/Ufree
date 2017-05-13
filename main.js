@@ -57,9 +57,14 @@ class AppContainer extends React.Component {
         <Provider store = {store}>
           <View style={styles.container}>
             <NavigationProvider router={Router}>
-              <StackNavigation
+              {/*<StackNavigation
                 id="root"
                 initialRoute={Router.getRoute('rootNavigation')}
+              />*/}
+
+              <StackNavigation
+                id="auth"
+                initialRoute={Router.getRoute('auth')}
               />
             </NavigationProvider>
 
