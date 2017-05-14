@@ -20,15 +20,15 @@ class AppContainer extends React.Component {
 
   componentWillMount() {
     this._loadAssetsAsync();
-    // const config = {
-    //   apiKey: "AIzaSyAd5hMEa3j5TTgxbcaszv4g4Jxj356A_Vg",
-    //   authDomain: "ufree-82308.firebaseapp.com",
-    //   databaseURL: "https://ufree-82308.firebaseio.com",
-    //   projectId: "ufree-82308",
-    //   storageBucket: "ufree-82308.appspot.com",
-    //   messagingSenderId: "975253816135"
-    // };
-    // firebase.initializeApp(config);
+    const config = {
+      apiKey: "AIzaSyAd5hMEa3j5TTgxbcaszv4g4Jxj356A_Vg",
+      authDomain: "ufree-82308.firebaseapp.com",
+      databaseURL: "https://ufree-82308.firebaseio.com",
+      projectId: "ufree-82308",
+      storageBucket: "ufree-82308.appspot.com",
+      messagingSenderId: "975253816135"
+    };
+    firebase.initializeApp(config);
   }
 
   async _loadAssetsAsync() {

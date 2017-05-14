@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, AsyncStorage, Image } from 'react-native';
 import { Button } from 'react-native-elements';
+import { connect } from 'react-redux';
 
 class ComingSoonScreen extends Component{
 
@@ -8,8 +9,17 @@ class ComingSoonScreen extends Component{
     return(
         <View style = {styles.comingSoonStyle}>
           <Text style = {styles.comingSoonText}>
-            Coming Soon!! fuck
+            Coming Soon!!
           </Text>
+          <Text style = {styles.comingSoonText}>
+            Hello {this.props.profile.name}
+           
+          </Text>
+          <Image 
+          //HARD CODED IMAGE!!
+            source = {{ uri: `https://graph.facebook.com/10156176922324972/picture?type=large`}}
+            style = {{ height: 100, width: 100}}
+          />
           <Button 
           title = 'log out'
           onPress = {() => AsyncStorage.removeItem('fb_token')}/>
@@ -31,4 +41,9 @@ const styles = StyleSheet.create({
     color:'white'
   }
 });
-export default ComingSoonScreen;
+
+function mapStateToProps({ auth }){
+  console.log(auth)
+  return { token: auth.token, profile: auth.profile };
+}
+export default connect(mapStateToProps)(ComingSoonScreen);
