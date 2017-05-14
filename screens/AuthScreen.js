@@ -8,8 +8,8 @@ import Router from '../navigation/Router'
 class AuthScreen extends Component{
 
   componentDidMount() {
-    // this.props.facebookLogin();
-    // this.onAuthComplete(this.props);
+     this.props.facebookLogin();
+     this.onAuthComplete(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,9 +31,7 @@ class AuthScreen extends Component{
   }
 
   logIn() {
-    //this.props.facebookLogin();
-    //tryagain with firebase fb login
-    this.props.firebaseFbLogin();
+    this.props.facebookLogin();
     
   }
 }

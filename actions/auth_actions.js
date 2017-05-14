@@ -5,6 +5,8 @@ import {
   FACEBOOK_LOGIN_FAIL
 } from './types';
 
+import firebase from 'firebase';
+
 
 //AsyncStorage.setItem('fb_token', token);
 //AsyncStorage.getItem('fb_token');
@@ -34,25 +36,31 @@ const doFacebookLogin = async dispatch => {
   if (type === 'cancel') {
     return dispatch({ type: FACEBOOK_LOGIN_FAIL });
   }
-
+  //grabbing token
   await AsyncStorage.setItem('fb_token', token);
-
-console.log('got token')
-console.log(token)
   const result = await fetch(
     `https://graph.facebook.com/me/?access_token=${token}`
   );
   const profile = await result.json();
 
-  // console.log('got profile');
-
-  // console.log(profile);
-
   await AsyncStorage.setItem('fb_profile', profile.toString());
   //put this shit in firebase
-  console.log('got this far')
+
+  authenticate(token)
+
+  console.log('authentication complete')
+  
   dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: {token,profile} });
 
 
   
 };
+const authenticate = (token) => {
+  const provider = firebase.auth.FacebookAuthProvider
+  const credential = provider.credential(token)
+
+  console.log('authenticating user')
+  firebase.auth().signInWithCredential(credential)
+
+  }
+

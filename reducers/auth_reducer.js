@@ -13,7 +13,7 @@ export default function(state={}, action){
       // 2) if firebase account doesnt exist then try creating an account
       // 3) if all fails, send a fail request
       console.log(action)
-      userCreate(action.payload.profile);
+      userCreate(action.payload.profile, action.payload.token);
 
 
       return {...state, token: action.payload.token, profile: action.payload.profile};
@@ -24,12 +24,19 @@ export default function(state={}, action){
   }
 }
 
-const userCreate = (profile) => {
+const userCreate = (profile, token) => {
   //push stuff here
-  const friends = {};
+  const friends = {friends: {}};
   console.log(profile)
 
+  // const provider = firebase.auth.FacebookAuthProvider
+  // const credential = provider.credential(token)
+  // let newUser = firebase.auth().signInWithCredential(credential)
+  // console.log(newUser)
+
+
   //firebase.auth().createU
-  //firebase.database().ref(`users/${profile.id}`).push({profile, friends}).catch()
+  console.log('trying to push shit')
+  firebase.database().ref(`users/${profile.id}`).push({profile, friends}).catch()
   console.log('done puushing to firebase')
 }
