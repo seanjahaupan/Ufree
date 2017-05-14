@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, AsyncStorage, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
+import { facebookFetchData } from '../actions'
 
 class ComingSoonScreen extends Component{
 
+  showState(){
+    console.log(this.props)
+  }
   render() {
     return(
         <View style = {styles.comingSoonStyle}>
@@ -23,6 +27,14 @@ class ComingSoonScreen extends Component{
           <Button 
           title = 'log out'
           onPress = {() => AsyncStorage.removeItem('fb_token')}/>
+
+          <Button
+          title = 'get profile data'
+          onPress = {this.props.facebookFetchData} />
+
+          <Button
+          title = 'get state'
+          onPress = {() => {this.showState()}} />
         </View>
     );
   }
@@ -46,4 +58,4 @@ function mapStateToProps({ auth }){
   console.log(auth)
   return { token: auth.token, profile: auth.profile };
 }
-export default connect(mapStateToProps)(ComingSoonScreen);
+export default connect(mapStateToProps, {facebookFetchData})(ComingSoonScreen);

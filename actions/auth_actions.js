@@ -2,7 +2,8 @@ import { AsyncStorage } from 'react-native';
 import { Facebook } from 'expo';
 import {
   FACEBOOK_LOGIN_SUCCESS,
-  FACEBOOK_LOGIN_FAIL
+  FACEBOOK_LOGIN_FAIL,
+  FACEBOOK_FETCH_DATA
 } from './types';
 
 import firebase from 'firebase';
@@ -48,7 +49,6 @@ const doFacebookLogin = async dispatch => {
 
   authenticate(token)
 
-  console.log('authentication complete')
   
   dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: {token,profile} });
 
@@ -59,8 +59,21 @@ const authenticate = (token) => {
   const provider = firebase.auth.FacebookAuthProvider
   const credential = provider.credential(token)
 
-  console.log('authenticating user')
   firebase.auth().signInWithCredential(credential)
 
-  }
+}
 
+export const facebookFetchData = async (dispatch) => {
+
+  //USER ID, make it legitttt
+
+  const id = 10156176922324972
+  let ref = firebase.database().ref(`/users/${id}`).on("value", function(snapshot) { console.log(snapshot.val())});
+
+  // return (dispatch) => {
+  //   firebase.database().ref(`/users/${id}`)
+  //     .on('value', snapshot => {
+  //       dispatch( { type: FACEBOOK_FETCH_DATA, payload: snapshot.val() });
+  //     });
+  //};
+};
