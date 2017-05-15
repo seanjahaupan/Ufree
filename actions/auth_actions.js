@@ -3,7 +3,8 @@ import { Facebook } from 'expo';
 import {
   FACEBOOK_LOGIN_SUCCESS,
   FACEBOOK_LOGIN_FAIL,
-  FACEBOOK_FETCH_DATA
+  FACEBOOK_FETCH_DATA,
+  ADD_FRIEND
 } from './types';
 
 import firebase from 'firebase';
@@ -75,3 +76,9 @@ export const facebookFetchData = () => {
   });
  }
 };
+
+export const addFriend = (newFriend) => {
+  return (dispatch) => {
+    dispatch( {type: ADD_FRIEND, payload: newFriend })
+  }
+}

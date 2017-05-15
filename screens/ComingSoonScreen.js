@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, AsyncStorage, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { facebookFetchData } from '../actions'
+import { facebookFetchData, addFriend } from '../actions'
 
 class ComingSoonScreen extends Component{
 
@@ -31,6 +31,10 @@ class ComingSoonScreen extends Component{
           <Button
           title = 'get profile data'
           onPress = {this.props.facebookFetchData} />
+
+          <Button
+          title = 'add friend'
+          onPress = {() => this.props.addFriend(12341234)} />
 
           <Button
           title = 'get state'
@@ -62,4 +66,4 @@ function mapStateToProps({ auth }){
 // function mapDispatchToProps(dispatch) {
 //   return { facebookFetchData: ()=> dispatch(facebookFetchData())}
 // }
-export default connect(mapStateToProps, {facebookFetchData})(ComingSoonScreen);
+export default connect(mapStateToProps, {facebookFetchData, addFriend})(ComingSoonScreen);
