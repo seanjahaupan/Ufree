@@ -58,4 +58,8 @@ function mapStateToProps({ auth }){
   console.log(auth)
   return { token: auth.token, profile: auth.profile };
 }
+
+// function mapDispatchToProps(dispatch) {
+//   return { facebookFetchData: ()=> dispatch(facebookFetchData())}
+// }
 export default connect(mapStateToProps, {facebookFetchData})(ComingSoonScreen);
