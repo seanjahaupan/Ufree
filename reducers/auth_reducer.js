@@ -2,7 +2,8 @@ import {
   FACEBOOK_LOGIN_SUCCESS,
   FACEBOOK_LOGIN_FAIL,
   FACEBOOK_FETCH_DATA,
-  ADD_FRIEND
+  ADD_FRIEND,
+  FACEBOOK_LOGOUT
 } from '../actions/types';
 
 import firebase from 'firebase';
@@ -17,15 +18,18 @@ export default function(state={}, action){
       return {token: null};
 
     case FACEBOOK_FETCH_DATA:
-      console.log('here is action.payload aka the on val from firebase')
       //console.log(action)
       return {...state, friendList: action.payload}
 
     case ADD_FRIEND:
       //adds friend with firebase and returns the friend, firebase should update the friend list in props
-      console.log('adding frined', action.payload)
       firebase.database().ref(`users/${state.profile.id}/friends`).push(action.payload).catch()
       return state
+
+    case FACEBOOK_LOGOUT:
+    //make my async store token null as well!!!
+    //////////
+      return {...state, token: null}
     default:
       return state;
   }

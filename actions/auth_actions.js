@@ -4,7 +4,8 @@ import {
   FACEBOOK_LOGIN_SUCCESS,
   FACEBOOK_LOGIN_FAIL,
   FACEBOOK_FETCH_DATA,
-  ADD_FRIEND
+  ADD_FRIEND,
+  FACEBOOK_LOGOUT
 } from './types';
 
 import firebase from 'firebase';
@@ -17,9 +18,9 @@ export const facebookLogin = () => async dispatch => {
   let token = await AsyncStorage.getItem('fb_token');
   let profile = await AsyncStorage.getItem('fb_profile')
   
-  ///REMOVE THIS!!
-  token = null
-  profile = null
+  // ///REMOVE THIS!!
+  // token = null
+  // profile = null
   if (token && profile) {
     // dispatch an action to say FB login is done
     dispatch({type: FACEBOOK_LOGIN_SUCCESS, payload: {token, profile}});
@@ -80,5 +81,13 @@ export const facebookFetchData = () => {
 export const addFriend = (newFriend) => {
   return (dispatch) => {
     dispatch( {type: ADD_FRIEND, payload: newFriend })
+  }
+}
+
+export const facebookLogout = async dispatch => {
+  await AsyncStorage.removeItem('fb_token', token);
+  await AsyncStorage.removeItem('fb_profile', profile.toString());
+  return (dispatch) => {
+    dispatch({ type: FACEBOOK_LOGOUT, payload: false})
   }
 }
