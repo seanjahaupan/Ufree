@@ -2,9 +2,15 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, AsyncStorage, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { facebookFetchData, addFriend } from '../actions'
+import { facebookFetchData, addFriend, facebookLogout } from '../actions'
+import Router from '../navigation/Router'
 
 class ComingSoonScreen extends Component{
+
+  onLogOut() {
+    console.log('onlogout')
+    this.props.navigator.replace(Router.getRoute('auth')) 
+  }
 
   showState(){
     console.log(this.props)
@@ -26,7 +32,11 @@ class ComingSoonScreen extends Component{
           />
           <Button 
           title = 'log out'
-          onPress = {() => AsyncStorage.removeItem('fb_token')}/>
+          onPress = {() => {
+            console.log('loggingout')
+            this.props.facebookLogout()
+            this.onLogOut()
+            }}/>
 
           <Button
           title = 'get profile data'
@@ -66,4 +76,4 @@ function mapStateToProps({ auth }){
 // function mapDispatchToProps(dispatch) {
 //   return { facebookFetchData: ()=> dispatch(facebookFetchData())}
 // }
-export default connect(mapStateToProps, {facebookFetchData, addFriend})(ComingSoonScreen);
+export default connect(mapStateToProps, {facebookFetchData, addFriend, facebookLogout})(ComingSoonScreen);

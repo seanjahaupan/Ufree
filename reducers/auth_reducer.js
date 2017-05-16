@@ -29,7 +29,8 @@ export default function(state={}, action){
     case FACEBOOK_LOGOUT:
     //make my async store token null as well!!!
     //////////
-      return {...state, token: null}
+    console.log('logging out in reducer')
+      return {...state, token: action.payload, profile: action.payload}
     default:
       return state;
   }

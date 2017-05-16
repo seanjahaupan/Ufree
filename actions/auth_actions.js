@@ -15,6 +15,7 @@ import firebase from 'firebase';
 //AsyncStorage.getItem('fb_token');
 
 export const facebookLogin = () => async dispatch => {
+  console.log(AsyncStorage)
   let token = await AsyncStorage.getItem('fb_token');
   let profile = await AsyncStorage.getItem('fb_profile')
   
@@ -84,10 +85,12 @@ export const addFriend = (newFriend) => {
   }
 }
 
-export const facebookLogout = async dispatch => {
-  await AsyncStorage.removeItem('fb_token', token);
-  await AsyncStorage.removeItem('fb_profile', profile.toString());
-  return (dispatch) => {
-    dispatch({ type: FACEBOOK_LOGOUT, payload: false})
-  }
+export const facebookLogout = () => async (dispatch) => {
+  
+  await AsyncStorage.removeItem('fb_token').catch();
+  await AsyncStorage.removeItem('fb_profile').catch();
+
+  console.log('deleted from async storage')
+  dispatch ({ type: FACEBOOK_LOGOUT, payload: null});
+  
 }
