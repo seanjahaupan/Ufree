@@ -11,16 +11,17 @@ import {
   View,
 } from 'react-native';
 
+import {updateAvailability} from '../actions';
 import { MonoText } from '../components/StyledText';
+import { connect } from 'react-redux';
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   static route = {
     navigationBar: {
       visible: false,
     },
   };
 
-  state = {available: true}
 
   render() {
     return (
@@ -30,8 +31,8 @@ export default class HomeScreen extends React.Component {
             Available
           </Text>
           <Switch 
-            value = {this.state.available}
-            onValueChange={(value) => this.setState({available: value})}
+            value = {this.props.available}
+            onValueChange={(value) => this.props.updateAvailability(value)}
           />
         </View>
 
@@ -210,3 +211,9 @@ const styles = StyleSheet.create({
     color: '#2e78b7',
   },
 });
+
+function mapStateToProps({auth}){
+  return {available: auth.available}
+}
+
+export default connect(mapStateToProps, {updateAvailability})(HomeScreen)

@@ -7,13 +7,15 @@ import {
   TabNavigationItem,
 } from '@expo/ex-navigation';
 import { FontAwesome } from '@expo/vector-icons';
+import { connect } from 'react-redux';
 
+import Router from './Router';
 import Alerts from '../constants/Alerts';
 import Colors from '../constants/Colors';
 import registerForPushNotificationsAsync
   from '../api/registerForPushNotificationsAsync';
 
-export default class RootNavigation extends React.Component {
+class RootNavigation extends React.Component {
   componentDidMount() {
     // this._notificationSubscription = this._registerForPushNotifications();
   }
@@ -23,40 +25,52 @@ export default class RootNavigation extends React.Component {
   }
 
   render() {
-    return (
-      <TabNavigation tabBarHeight={56} initialTab="home">
-        <TabNavigationItem
-          id="home"
-          renderIcon={isSelected => this._renderIcon('home', isSelected)}>
-          <StackNavigation initialRoute="home" />
-        </TabNavigationItem>
 
-        <TabNavigationItem
-          id="chat"
-          renderIcon={isSelected => this._renderIcon('wechat', isSelected)}>
-          <StackNavigation initialRoute="chat" />
-        </TabNavigationItem>
+    //if not signed in show auth, else show the tabs
+    if(!this.props.token){
+      return (
+        <StackNavigation
+            id="auth"
+            initialRoute={Router.getRoute('auth')}
+        />
+      );
+    } else {
+      return (
+        <TabNavigation tabBarHeight={56} initialTab="home">
+          <TabNavigationItem
+            id="home"
+            renderIcon={isSelected => this._renderIcon('home', isSelected)}>
+            <StackNavigation initialRoute="home" />
+          </TabNavigationItem>
 
-                <TabNavigationItem
-          id="calendar"
-          renderIcon={isSelected => this._renderIcon('calendar', isSelected)}>
-          <StackNavigation initialRoute="calendar" />
-        </TabNavigationItem>
+          <TabNavigationItem
+            id="chat"
+            renderIcon={isSelected => this._renderIcon('wechat', isSelected)}>
+            <StackNavigation initialRoute="chat" />
+          </TabNavigationItem>
 
-        <TabNavigationItem
-          id="links"
-          renderIcon={isSelected => this._renderIcon('book', isSelected)}>
-          <StackNavigation initialRoute="links" />
-        </TabNavigationItem>
+                  <TabNavigationItem
+            id="calendar"
+            renderIcon={isSelected => this._renderIcon('calendar', isSelected)}>
+            <StackNavigation initialRoute="calendar" />
+          </TabNavigationItem>
 
-        <TabNavigationItem
-          id="settings"
-          renderIcon={isSelected => this._renderIcon('cog', isSelected)}>
-          <StackNavigation initialRoute="settings" />
-        </TabNavigationItem>
-        
-      </TabNavigation>
-    );
+          <TabNavigationItem
+            id="links"
+            renderIcon={isSelected => this._renderIcon('book', isSelected)}>
+            <StackNavigation initialRoute="links" />
+          </TabNavigationItem>
+
+          <TabNavigationItem
+            id="settings"
+            renderIcon={isSelected => this._renderIcon('cog', isSelected)}>
+            <StackNavigation initialRoute="settings" />
+          </TabNavigationItem>
+          
+        </TabNavigation>
+      );
+    }
+
   }
 
   _renderIcon(name, isSelected) {
@@ -88,6 +102,8 @@ export default class RootNavigation extends React.Component {
   //     Alerts.notice
   //   );
   // };
+
+  
 }
 
 const styles = StyleSheet.create({
@@ -99,3 +115,9 @@ const styles = StyleSheet.create({
     color: Colors.tabIconSelected,
   },
 });
+
+function mapStateToProps({auth}){
+  return { token: auth.token};
+}
+
+export default connect(mapStateToProps)(RootNavigation);

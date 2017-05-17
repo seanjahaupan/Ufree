@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, AsyncStorage, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { facebookFetchData, addFriend, facebookLogout } from '../actions'
+import { facebookFetchData, addFriend, facebookLogout, deleteFriend } from '../actions'
 import Router from '../navigation/Router'
 
 class ComingSoonScreen extends Component{
 
   onLogOut() {
-    console.log('onlogout')
-    this.props.navigator.replace(Router.getRoute('auth')) 
+    //console.log('onlogout')
+    //this.props.navigator.replace(Router.getRoute('auth')) 
   }
 
   showState(){
@@ -27,28 +27,41 @@ class ComingSoonScreen extends Component{
           </Text>
           <Image 
           //HARD CODED IMAGE!!
-            source = {{ uri: `https://graph.facebook.com/10156176922324972/picture?type=large`}}
+            source = {{ uri: `https://graph.facebook.com/${this.props.profile.id}/picture?type=large`}}
             style = {{ height: 100, width: 100}}
           />
           <Button 
-          title = 'log out'
-          onPress = {() => {
-            console.log('loggingout')
-            this.props.facebookLogout()
-            this.onLogOut()
+            title = 'log out'
+            onPress = {() => {
+              console.log('loggingout')
+              this.props.facebookLogout()
+              this.onLogOut()
             }}/>
 
           <Button
-          title = 'get profile data'
-          onPress = {this.props.facebookFetchData} />
+            title = 'get profile data'
+            onPress = {this.props.facebookFetchData} 
+          />
+         
+          <Button
+            title = 'add friend'
+            onPress = {() => {
+              this.props.addFriend('12341234') 
+              //this.props.addFriend(78907890)
+              }} 
+          />
+
+          {/*deletefriend*/}
+          <Button
+            title = 'delete friend'
+            onPress = {() => this.props.deleteFriend(12341234)} 
+          />
 
           <Button
-          title = 'add friend'
-          onPress = {() => this.props.addFriend(12341234)} />
+            title = 'get state'
+            onPress = {() => {this.showState()}} 
+          />
 
-          <Button
-          title = 'get state'
-          onPress = {() => {this.showState()}} />
         </View>
     );
   }
@@ -69,11 +82,8 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps({ auth }){
-  console.log(auth)
+  //console.log(auth)
   return { token: auth.token, profile: auth.profile };
 }
 
-// function mapDispatchToProps(dispatch) {
-//   return { facebookFetchData: ()=> dispatch(facebookFetchData())}
-// }
-export default connect(mapStateToProps, {facebookFetchData, addFriend, facebookLogout})(ComingSoonScreen);
+export default connect(mapStateToProps, {facebookFetchData, addFriend, facebookLogout, deleteFriend})(ComingSoonScreen);

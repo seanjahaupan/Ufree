@@ -5,7 +5,9 @@ import {
   FACEBOOK_LOGIN_FAIL,
   FACEBOOK_FETCH_DATA,
   ADD_FRIEND,
-  FACEBOOK_LOGOUT
+  FACEBOOK_LOGOUT,
+  DEL_FRIEND, 
+  UPDATE_AVAIL
 } from './types';
 
 import firebase from 'firebase';
@@ -17,8 +19,8 @@ import firebase from 'firebase';
 export const facebookLogin = () => async dispatch => {
   console.log(AsyncStorage)
   let token = await AsyncStorage.getItem('fb_token');
-  let profile = await AsyncStorage.getItem('fb_profile')
-  
+  let profile = JSON.parse(await AsyncStorage.getItem('fb_profile')) 
+
   // ///REMOVE THIS!!
   // token = null
   // profile = null
@@ -46,10 +48,7 @@ const doFacebookLogin = async dispatch => {
     `https://graph.facebook.com/me/?access_token=${token}`
   );
   const profile = await result.json();
-
-  await AsyncStorage.setItem('fb_profile', profile.toString());
-  //put this shit in firebase
-
+  await AsyncStorage.setItem('fb_profile', JSON.stringify(profile));
   authenticate(token)
 
   
@@ -61,7 +60,7 @@ const doFacebookLogin = async dispatch => {
 const authenticate = (token) => {
   const provider = firebase.auth.FacebookAuthProvider
   const credential = provider.credential(token)
-
+  //check to see how i can signin without deleting my user!!!
   firebase.auth().signInWithCredential(credential)
 
 }
@@ -71,7 +70,6 @@ export const facebookFetchData = () => {
   return (dispatch, store) => {
     const id = store().auth.profile.id //grabs users id from the Redux store
     let ref = firebase.database().ref(`/users/${id}`).on("value", function(snapshot) { //grabs data in firebase
-    console.log('this is snapshot val',snapshot.val())
 
     dispatch( { type: FACEBOOK_FETCH_DATA, payload: snapshot.val() });
   
@@ -85,12 +83,23 @@ export const addFriend = (newFriend) => {
   }
 }
 
+export const deleteFriend = (badFriend) => {
+  return (dispatch) => {
+    dispatch( {type: DEL_FRIEND, payload: badFriend })
+  }
+}
+
 export const facebookLogout = () => async (dispatch) => {
   
   await AsyncStorage.removeItem('fb_token').catch();
   await AsyncStorage.removeItem('fb_profile').catch();
 
-  console.log('deleted from async storage')
   dispatch ({ type: FACEBOOK_LOGOUT, payload: null});
   
+}
+
+export const updateAvailability = (availability) => {
+  return (dispatch) => {
+    dispatch( {type: UPDATE_AVAIL, payload: availability})
+  }
 }

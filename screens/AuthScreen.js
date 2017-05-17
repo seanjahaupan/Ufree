@@ -18,7 +18,7 @@ class AuthScreen extends Component{
 
   onAuthComplete(props) {
     if (props.token) {
-      this.props.navigator.replace(Router.getRoute('rootNavigation')) 
+      //this.props.navigator.replace(Router.getRoute('rootNavigation')) 
     }
   }
 
