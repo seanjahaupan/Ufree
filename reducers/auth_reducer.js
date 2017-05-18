@@ -13,8 +13,12 @@ import firebase from 'firebase';
 export default function(state={token:null}, action){
   switch(action.type) {
     case FACEBOOK_LOGIN_SUCCESS:
+
+      //check if user was created before, if not, then run userCreate
       userCreate(action.payload.profile, action.payload.token);
-      return {...state, token: action.payload.token, profile: action.payload.profile};
+
+      //sets up the token, profile, and makes you available when you first sign on!
+      return {...state, token: action.payload.token, profile: action.payload.profile, available: true};
 
     case FACEBOOK_LOGIN_FAIL:
       return {token: null};
@@ -39,12 +43,15 @@ export default function(state={token:null}, action){
 
       //do it legit
 
+      firebase.database().ref(`users/${state.profile.id}/friends/${action.payload}`).update({'isFriend':true});
+
 
       return state
 
     case DEL_FRIEND:
       //try the employee way where i can get the uid
       //firebase.database().ref(`users/${state.profile.id}/friends`).orderByChild('id').equalTo(action.payload).remove
+      firebase.database().ref(`users/${state.profile.id}/friends/${action.payload}`).update({'isFriend':null});
       return state
 
     case FACEBOOK_LOGOUT:
@@ -60,8 +67,9 @@ export default function(state={token:null}, action){
 }
 
 const userCreate = (profile, token) => {
-  //creates a new account, will overwrite old account!!
+  //creates a new account, makes you available when you first log in
   firebase.database().ref(`users/${profile.id}`).update({profile}).catch()
+  firebase.database().ref(`users/${profile.id}`).update({'available':true}).catch()
 
   //ADD DISPATCH HERE TO SET STATE AS DONE LOADING!!
 }

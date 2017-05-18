@@ -15,6 +15,8 @@ import {updateAvailability} from '../actions';
 import { MonoText } from '../components/StyledText';
 import { connect } from 'react-redux';
 
+import ListItem from '../components/ListItem'
+
 class HomeScreen extends React.Component {
   static route = {
     navigationBar: {
@@ -35,6 +37,7 @@ class HomeScreen extends React.Component {
             onValueChange={(value) => this.props.updateAvailability(value)}
           />
         </View>
+        <ListItem />
 
 
         <ScrollView
