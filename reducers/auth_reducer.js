@@ -5,7 +5,8 @@ import {
   ADD_FRIEND,
   FACEBOOK_LOGOUT,
   DEL_FRIEND,
-  UPDATE_AVAIL
+  UPDATE_AVAIL,
+  FETCH_FRIENDS
 } from '../actions/types';
 
 import firebase from 'firebase';
@@ -61,6 +62,11 @@ export default function(state={token:null}, action){
     //change state in firebase and in props
       firebase.database().ref(`users/${state.profile.id}`).update({'available':action.payload}).catch()
       return {...state, available : action.payload }
+
+    case FETCH_FRIENDS:
+      //takes the array from actions.payload (aka my friends array) then grabs the data from the keys in my overall object
+
+      return {...state}
     default:
       return state;
   }

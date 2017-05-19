@@ -29,8 +29,9 @@ const styles = StyleSheet.create({
   outsideListItemView: {
     flexDirection: 'row',
     //hardcoded height
-    height:100,
-    backgroundColor:'aliceblue'
+    height:101,
+    backgroundColor:'whitesmoke',
+    borderBottomWidth:1
   },
   textBoxView: {
     flexDirection:'column',

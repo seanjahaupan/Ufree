@@ -5,3 +5,4 @@ export const ADD_FRIEND = 'add_friend';
 export const DEL_FRIEND = 'del_friend';
 export const FACEBOOK_LOGOUT = 'facebook_logout';
 export const UPDATE_AVAIL = 'update_availability';
+export const FETCH_FRIENDS = 'fetch_friends';

@@ -11,6 +11,7 @@ import {
 } from './types';
 
 import firebase from 'firebase';
+import _ from 'lodash';
 
 
 //AsyncStorage.setItem('fb_token', token);
@@ -103,3 +104,32 @@ export const updateAvailability = (availability) => {
     dispatch( {type: UPDATE_AVAIL, payload: availability})
   }
 }
+
+export const fetchFriends = () => {
+  return(dispatch, store) => {
+    const id = store().auth.profile.id
+    let friendsArray = [];
+    firebase.database().ref(`/users/${id}/friends`).on('value', function(snapshot){
+      //console.log('fetch friends array',snapshot.val())
+      //dispatch({type: FETCH_FRIENDS, payload:snapshot.val() });
+       _.forEach(snapshot.val(),(val, key)=>{
+        //console.log('inside map', key)
+        //key is the friends id
+
+          friendsArray.push(new Promise((resolve) => {
+            firebase.database().ref(`/users/${key}`).on('value', function(snapshot){
+              //console.log('inside the friend array', snapshot.val())
+                resolve(snapshot.val());
+                console.log(snapshot.val());
+            });
+          }));
+        //create object here and use key to accessf irebase, return array of objects
+      });
+
+      Promise.all(friendsArray).then((data) => {
+        console.log(data);
+        friendsArray = [];
+      });
+    });
+  }
+};

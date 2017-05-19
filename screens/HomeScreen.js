@@ -9,9 +9,10 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ListView
 } from 'react-native';
 
-import {updateAvailability} from '../actions';
+import { updateAvailability, fetchFriends } from '../actions';
 import { MonoText } from '../components/StyledText';
 import { connect } from 'react-redux';
 
@@ -23,8 +24,27 @@ class HomeScreen extends React.Component {
       visible: false,
     },
   };
+//SET UP FOR LIST VIEW, uncomment this!
+  // componentWillMount() {
+  //   //fetch friends here add funtion
 
+  //   //this.props.freindsFetch();
+  //   this.createDataSource(this.props)
 
+  // }
+
+  // componentWillReceiveProps(nextProps) {
+  //   //next props received when i get new friends
+  //   this.createDataSource(this.props)
+  // }
+
+  // createDataSource({friends}) {
+  //     const ds = new ListView.DataSource({
+  //     rowHasChanged: (r1,r2) => r1 !== r2
+  //   });
+
+  //   this.dataSource = ds.cloneWithRows(friends);
+  //}
   render() {
     return (
       <View style={styles.container}>
@@ -37,6 +57,7 @@ class HomeScreen extends React.Component {
             onValueChange={(value) => this.props.updateAvailability(value)}
           />
         </View>
+        <ListItem />
         <ListItem />
 
 
