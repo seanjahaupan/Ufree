@@ -4,6 +4,7 @@ import {
   FACEBOOK_LOGIN_SUCCESS,
   FACEBOOK_LOGIN_FAIL,
   FACEBOOK_FETCH_DATA,
+  FETCH_FRIENDS,
   ADD_FRIEND,
   FACEBOOK_LOGOUT,
   DEL_FRIEND, 
@@ -108,7 +109,6 @@ export const updateAvailability = (availability) => {
 export const fetchFriends = () => {
   return(dispatch, store) => {
     const id = store().auth.profile.id
-    let friendsArray = [];
     firebase.database().ref(`/users/${id}/friends`).on('value', function(snapshot){
       //console.log('fetch friends array',snapshot.val())
       //dispatch({type: FETCH_FRIENDS, payload:snapshot.val() });
@@ -116,20 +116,17 @@ export const fetchFriends = () => {
         //console.log('inside map', key)
         //key is the friends id
 
-          friendsArray.push(new Promise((resolve) => {
-            firebase.database().ref(`/users/${key}`).on('value', function(snapshot){
-              //console.log('inside the friend array', snapshot.val())
-                resolve(snapshot.val());
-                console.log(snapshot.val());
-            });
-          }));
-        //create object here and use key to accessf irebase, return array of objects
-      });
+          firebase.database().ref(`/users/${key}`).on('value', function(snapshot){
+            //console.log('inside the friend array', snapshot.val())
+            if(snapshot.val()){
+              //only dispatch if snapshot.val is not null (won't show any bad friends)
+              console.log('firebase found data', snapshot.val())
+              dispatch({type:FETCH_FRIENDS, payload: snapshot.val()})
+            }
+          });
 
-      Promise.all(friendsArray).then((data) => {
-        console.log(data);
-        friendsArray = [];
-      });
+       });
     });
   }
-};
+}
+                

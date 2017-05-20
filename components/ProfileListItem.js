@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 
 class ListItem extends Component{
+  onRowPress() {
+    console.log(this.props)
+  }
 
   render(){
+    console.log(this.props)
     return(
+      <TouchableHighlight onPress={this.onRowPress.bind(this)}>
       <View style = {styles.outsideListItemView}>
         <Image
           source = {{ uri: `https://graph.facebook.com/${this.props.profile.id}/picture?type=large`}}
@@ -13,10 +18,10 @@ class ListItem extends Component{
         />
         <View style = {styles.textBoxView}>
           <Text style = {styles.nameTextStyle}>{this.props.profile.name}</Text>
-          <Text>im available</Text>
         </View>
         
       </View>
+      </TouchableHighlight>
     );
   }
 

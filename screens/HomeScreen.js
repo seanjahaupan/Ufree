@@ -11,12 +11,13 @@ import {
   View,
   ListView
 } from 'react-native';
-
+import _ from 'lodash';
 import { updateAvailability, fetchFriends } from '../actions';
 import { MonoText } from '../components/StyledText';
 import { connect } from 'react-redux';
 
-import ListItem from '../components/ListItem'
+import ProfileListItem from '../components/ProfileListItem'
+import FriendListItem from '../components/FriendListItem'
 
 class HomeScreen extends React.Component {
   static route = {
@@ -25,26 +26,33 @@ class HomeScreen extends React.Component {
     },
   };
 //SET UP FOR LIST VIEW, uncomment this!
-  // componentWillMount() {
-  //   //fetch friends here add funtion
+  componentWillMount() {
+    //fetch friends here add funtion
 
-  //   //this.props.freindsFetch();
-  //   this.createDataSource(this.props)
+    this.props.fetchFriends();
+    this.createDataSource(this.props)
 
-  // }
+  }
 
-  // componentWillReceiveProps(nextProps) {
-  //   //next props received when i get new friends
-  //   this.createDataSource(this.props)
-  // }
+  componentWillReceiveProps(nextProps) {
+    //next props received when i get new friends
+    console.log('component will receive nextprops', nextProps)
+    //this.props.fetchFriends()
+    
+    this.createDataSource(nextProps)
+  }
 
-  // createDataSource({friends}) {
-  //     const ds = new ListView.DataSource({
-  //     rowHasChanged: (r1,r2) => r1 !== r2
-  //   });
+  createDataSource({friends}) {
+      const ds = new ListView.DataSource({
+      rowHasChanged: (r1,r2) => r1 !== r2
+    });
 
-  //   this.dataSource = ds.cloneWithRows(friends);
-  //}
+    this.dataSource = ds.cloneWithRows(friends);
+  }
+
+  renderRow(friend){
+    return <FriendListItem friend = {friend} />;
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -57,9 +65,12 @@ class HomeScreen extends React.Component {
             onValueChange={(value) => this.props.updateAvailability(value)}
           />
         </View>
-        <ListItem />
-        <ListItem />
-
+        <ProfileListItem />
+        <ListView
+          enableEmptySections
+          dataSource={this.dataSource}
+          renderRow={this.renderRow}
+        />
 
         <ScrollView
           style={styles.container}
@@ -237,7 +248,11 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps({auth}){
-  return {available: auth.available}
+  const friends = _.map(auth.friends, (val, id) => {
+    console.log('inside map function', val, id)
+    return {...val, id}
+  });
+  return {available: auth.available, friends}
 }
 
-export default connect(mapStateToProps, {updateAvailability})(HomeScreen)
+export default connect(mapStateToProps, {updateAvailability, fetchFriends})(HomeScreen)

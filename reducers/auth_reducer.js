@@ -11,7 +11,11 @@ import {
 
 import firebase from 'firebase';
 
-export default function(state={token:null}, action){
+const INITIAL_STATE = {token:null}
+
+
+export default function(state=INITIAL_STATE, action){
+
   switch(action.type) {
     case FACEBOOK_LOGIN_SUCCESS:
 
@@ -56,17 +60,23 @@ export default function(state={token:null}, action){
       return state
 
     case FACEBOOK_LOGOUT:
-      return {...state, token: action.payload, profile: action.payload}
+      return INITIAL_STATE
 
     case UPDATE_AVAIL:
     //change state in firebase and in props
+      console.log('inside update avail, state is ',state.profile)
       firebase.database().ref(`users/${state.profile.id}`).update({'available':action.payload}).catch()
       return {...state, available : action.payload }
 
     case FETCH_FRIENDS:
       //takes the array from actions.payload (aka my friends array) then grabs the data from the keys in my overall object
-
-      return {...state}
+      console.log('fetching friends in reducer',action.payload)
+      return {...state, friends: {...state.friends,
+                                  [action.payload.profile.id]:{  'name': action.payload.profile.name,
+                                        'available': action.payload.available
+                                      }
+                                  } 
+            }
     default:
       return state;
   }
