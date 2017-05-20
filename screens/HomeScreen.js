@@ -22,7 +22,8 @@ import FriendListItem from '../components/FriendListItem'
 class HomeScreen extends React.Component {
   static route = {
     navigationBar: {
-      visible: false,
+      //visible: false,
+      title: 'UFree'
     },
   };
 //SET UP FOR LIST VIEW, uncomment this!

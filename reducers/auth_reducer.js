@@ -20,6 +20,7 @@ export default function(state=INITIAL_STATE, action){
     case FACEBOOK_LOGIN_SUCCESS:
 
       //check if user was created before, if not, then run userCreate
+      console.log(action.payload.token)
       userCreate(action.payload.profile, action.payload.token);
 
       //sets up the token, profile, and makes you available when you first sign on!

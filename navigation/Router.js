@@ -6,6 +6,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import RootNavigation from './RootNavigation';
 import ComingSoonScreen from '../screens/ComingSoonScreen';
 import AuthScreen from '../screens/AuthScreen';
+import AddFriendsScreen from '../screens/AddFriendsScreen';
 
 export default createRouter(() => ({
   auth: () => AuthScreen,
@@ -16,6 +17,7 @@ export default createRouter(() => ({
 
   calendar: () => ComingSoonScreen,
   chat: () => ComingSoonScreen,
+  addFriends: () => AddFriendsScreen,
 
   
   rootNavigation: () => RootNavigation,
