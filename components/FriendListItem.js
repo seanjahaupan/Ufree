@@ -12,7 +12,9 @@ class ListItem extends Component{
     console.log(this.props.friend.available)
     return(
       <TouchableHighlight onPress={this.onRowPress.bind(this)}>
+        
         <View style = {styles.outsideListItemView}>
+          <View style = {[styles.availableColorView, this.props.friend.available ? styles.green: styles.red ]}/>
           <Image
             source = {{ uri: `https://graph.facebook.com/${this.props.friend.id}/picture?type=large`}}
             style = {{ height: 100, width: 100}}
@@ -33,6 +35,17 @@ class ListItem extends Component{
 };
 
 const styles = StyleSheet.create({
+  availableColorView:{
+    height:100,
+    width:10,
+    backgroundColor:'grey'
+  },
+  green: {
+    backgroundColor:'lawngreen'
+  },
+  red: {
+    backgroundColor:'red'
+  },
   outsideListItemView: {
     flexDirection: 'row',
     //hardcoded height
