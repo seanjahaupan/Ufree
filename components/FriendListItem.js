@@ -19,7 +19,7 @@ class ListItem extends Component{
           />
           <View style = {styles.textBoxView}>
             <Text style = {styles.nameTextStyle}>{this.props.friend.name}</Text>
-            <Text>Am I available? {this.props.friend.available ? 'Available' : 'Nope'}</Text>
+            <Text>{this.props.friend.available ? 'Available' : 'Busy'}</Text>
           </View>
           
         </View>

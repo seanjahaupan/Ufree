@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Image, TouchableHighlight } from 'react-native';
-import { connect } from 'react-redux';
 
 class CandidateItem extends Component{
   onRowPress() {
@@ -20,7 +19,9 @@ class CandidateItem extends Component{
             <Text style = {styles.nameTextStyle}>{this.props.candidate.name}</Text>
           </View>
           
+          
         </View>
+        
       </TouchableHighlight>
     );
   }

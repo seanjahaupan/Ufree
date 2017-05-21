@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, TouchableHighlight, Text, Image, TextInput, ListView, StyleSheet } from 'react-native';
-
+import {connect} from 'react-redux';
 import CandidateItem from '../components/CandidateItem'
 class AddFriendsScreen extends Component{
   static route = {
@@ -15,7 +15,7 @@ class AddFriendsScreen extends Component{
     console.log(value)
     let searchList = await fetch(
     ////////HARDCODED AUTH IMPORTANT, TAKE OUT!!
-    `https://graph.facebook.com/search?q=${value}&type=user`,{method: 'GET', headers: {authorization: 'OAuth EAAMR2PxOZAj8BAKyPhoFYJ4i2eVnCaRB0x0M3DZCg6GOdwaUho8ZBbbMEje6hYl3mmtrXJdLTI73IJT3lFFQ2ILHuE7cIkrgTsJLOGFTZCnaPu0yyEYRXJtHHBLN0Km0Kpslvg9AIUOt2OLoF7KPjR75D0vJMia0GzKmIp5DTtjjdcujc3ddtvWW7PZC7jayBZB5KP1idcRAZDZD'}}
+    `https://graph.facebook.com/search?q='${value}'&type=user`,{method: 'GET', headers: {authorization: `OAuth ${this.props.token}`}}
     //////////////////
     );
     searchList = await searchList.json()
@@ -56,8 +56,8 @@ class AddFriendsScreen extends Component{
 
   render(){
     return(
-      <View style = {{flex:1}}>
-        <View style={styles.containerStyle}>
+      <View style = {styles.outerContainerStyle}>
+        <View style={styles.searchContainerStyle}>
           <TextInput 
             placeholder = 'search...'
             autoCorrect={false}
@@ -79,6 +79,10 @@ class AddFriendsScreen extends Component{
 }
 
 const styles = StyleSheet.create({
+    outerContainerStyle: {
+      flex: 1,
+      backgroundColor: 'lightgrey'
+    },
     inputStyle: {
         color: '#000',
         paddingRight: 10,
@@ -87,12 +91,18 @@ const styles = StyleSheet.create({
         lineHeight: 50,
         flex: 1
     },
-    containerStyle:{
-      height: 70
+    searchContainerStyle:{
+      height: 70,
+      borderBottomWidth: 1,
+      backgroundColor:'whitesmoke',
     },
     listViewStyle: {
       flex:1
     }
     
-})
-export default AddFriendsScreen;
+});
+
+function mapStateToProps({auth}){
+  return {token: auth.token}
+}
+export default connect(mapStateToProps)(AddFriendsScreen);
