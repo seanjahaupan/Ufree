@@ -120,7 +120,7 @@ export const fetchFriends = () => {
             //console.log('inside the friend array', snapshot.val())
             if(snapshot.val()){
               //only dispatch if snapshot.val is not null (won't show any bad friends)
-              console.log('firebase found data', snapshot.val())
+              //console.log('firebase found data', snapshot.val())
               dispatch({type:FETCH_FRIENDS, payload: snapshot.val()})
             }
           });

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableHighlight, Text, Image, TextInput, ListView, StyleSheet } from 'react-native';
+import { View, TouchableHighlight, Text, Image, TextInput, ListView, StyleSheet, Alert } from 'react-native';
 import {connect} from 'react-redux';
 import CandidateItem from '../components/CandidateItem'
 class AddFriendsScreen extends Component{
@@ -47,9 +47,23 @@ class AddFriendsScreen extends Component{
     this.dataSource = ds.cloneWithRows(dataArray);
   }
 
+  onListPress(candidate){
+    Alert.alert(
+      "Add Friend",
+      `Are you sure you want to add ${candidate.name} as a friend?`,
+      [
+        {text: 'Yes', onPress: () => console.log('you got a new friend')},
+        {text: 'No', onPress: () => console.log('you are cold hearted')}
+      ]
+    )
+  }
+
   renderRow(candidate) {
     
-    return <CandidateItem candidate={candidate} />;
+    return <CandidateItem 
+    onListPress = {(candidate)=>this.onListPress(candidate)}
+    candidate={candidate} 
+    />;
   }
 
 
@@ -67,7 +81,7 @@ class AddFriendsScreen extends Component{
         </View>
         <ListView
           dataSource={this.dataSource}
-          renderRow={this.renderRow}
+          renderRow={(candidate) => this.renderRow(candidate)}
           enableEmptySections={true}
           style = {styles.listViewStyle}
         />

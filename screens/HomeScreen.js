@@ -61,7 +61,7 @@ class HomeScreen extends React.Component {
         <ListView
           enableEmptySections
           dataSource={this.dataSource}
-          renderRow={this.renderRow}
+          renderRow={(friend) => this.renderRow(friend)}
         />  
       </View>
     );

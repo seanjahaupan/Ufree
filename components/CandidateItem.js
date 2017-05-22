@@ -4,12 +4,13 @@ import { Text, View, StyleSheet, Image, TouchableHighlight } from 'react-native'
 class CandidateItem extends Component{
   onRowPress() {
     console.log(this.props)
+    this.props.onListPress(this.props.candidate)
   }
 
   render(){
-    console.log(this.props)
+    //console.log(this.props)
     return(
-      <TouchableHighlight onPress={this.onRowPress.bind(this)}>
+      <TouchableHighlight onPress={() => this.onRowPress()}>
         <View style = {styles.outsideListItemView}>
           <Image
             source = {{ uri: `https://graph.facebook.com/${this.props.candidate.id}/picture?type=large`}}
