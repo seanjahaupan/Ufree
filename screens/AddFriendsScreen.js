@@ -3,6 +3,9 @@ import { View, TouchableHighlight, Text, Image, TextInput, ListView, StyleSheet,
 import {connect} from 'react-redux';
 import CandidateItem from '../components/CandidateItem'
 import firebase from 'firebase';
+import _ from 'lodash';
+
+
 class AddFriendsScreen extends Component{
   static route = {
     navigationBar: {
@@ -10,7 +13,7 @@ class AddFriendsScreen extends Component{
     },
   };
 
-  state = {dataArray: {}}
+  state = {candidateObject: {}}
 
   async onChangeText(value){
     console.log(value)
@@ -30,10 +33,20 @@ class AddFriendsScreen extends Component{
     //   this.setState({...this.state, dataArray: {}})
     // }
     
+    await firebase.database().ref('users').orderByChild('profile/name').startAt(value).endAt(`${value}~`).once("value", (snapshot) => {
+      
+      //changes state once i get the object
+      this.setState({...this.state, candidateObject:snapshot.val()})
+      // if (snapshot.val()){
+      //    dataArray = _.map(snapshot.val(), (value)=>{
+      //     return value.profile
+          
+      //   });
+      // }
+      // console.log(dataArray)
 
-    await firebase.database().ref('users').orderByChild('profile/name').startAt(value).endAt(`${value}~`).once("value", function(snapshot) {
-      console.log(snapshot.val())
-      //do stuff here to add the data to my listview
+      //do stuff here to add the data to my listview, foreach method
+      //this.setState({...this.state, dataArray })
 
   });
 
@@ -44,12 +57,19 @@ class AddFriendsScreen extends Component{
     this.createDataSource(this.state)
   }
   componentWillUpdate(nextProps,nextState) {
+    console.log('updated component stawte is ', nextState)
     this.createDataSource(nextState)
   }
 
  
 
-  createDataSource({ dataArray }) {
+  createDataSource({ candidateObject }) {
+    let dataArray = []
+    if (candidateObject){
+      dataArray = _.map(candidateObject, (value) => {return value.profile});
+    }
+    console.log('datasouce created', )
+    
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
