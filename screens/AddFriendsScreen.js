@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, TouchableHighlight, Text, Image, TextInput, ListView, StyleSheet, Alert } from 'react-native';
 import {connect} from 'react-redux';
 import CandidateItem from '../components/CandidateItem'
+import firebase from 'firebase';
 class AddFriendsScreen extends Component{
   static route = {
     navigationBar: {
@@ -13,22 +14,30 @@ class AddFriendsScreen extends Component{
 
   async onChangeText(value){
     console.log(value)
-    let searchList = await fetch(
-    ////////HARDCODED AUTH IMPORTANT, TAKE OUT!!
-    `https://graph.facebook.com/search?q='${value}'&type=user`,{method: 'GET', headers: {authorization: `OAuth ${this.props.token}`}}
-    //////////////////
-    );
-    searchList = await searchList.json()
-    const dataArray = searchList.data
 
-    if (dataArray){
-      this.setState({...this.state, dataArray });
-    } else {
-      this.setState({...this.state, dataArray: {}})
-    }
+    //OPPA FACEBOOK SEARCH STYLEEEEEE
+    // let searchList = await fetch(
+    // ////////HARDCODED AUTH IMPORTANT, TAKE OUT!!
+    // `https://graph.facebook.com/search?q='${value}'&type=user`,{method: 'GET', headers: {authorization: `OAuth ${this.props.token}`}}
+    // //////////////////
+    // );
+    // searchList = await searchList.json()
+    // const dataArray = searchList.data
+
+    // if (dataArray){
+    //   this.setState({...this.state, dataArray });
+    // } else {
+    //   this.setState({...this.state, dataArray: {}})
+    // }
     
-    console.log('data array', dataArray)
-    console.log('state is now',this.state)
+
+    await firebase.database().ref('users').orderByChild('profile/name').startAt(value).endAt(`${value}~`).once("value", function(snapshot) {
+      console.log(snapshot.val())
+      //do stuff here to add the data to my listview
+
+  });
+
+
   }
 
   componentWillMount() {
