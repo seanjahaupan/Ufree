@@ -5,6 +5,7 @@ import CandidateItem from '../components/CandidateItem'
 import firebase from 'firebase';
 import _ from 'lodash';
 
+import Router from '../navigation/Router'
 import { addFriend } from '../actions'
 
 
@@ -57,13 +58,18 @@ class AddFriendsScreen extends Component{
       [
         {text: 'Yes', onPress: () => {
           console.log('you got a new friend')
-          this.props.addFriend(candidate)
+          this.addFriend(candidate)
         }},
         {text: 'No', onPress: () => console.log('you are cold hearted')}
       ]
     )
   }
 
+  addFriend(candidate) {
+    this.props.addFriend(candidate) //send to redux
+    console.log('inside add friends props are', this.props);
+    this.props.navigator.replace(Router.getRoute('home'));
+  }
   renderRow(candidate) {
     
     return <CandidateItem 
