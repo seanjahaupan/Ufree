@@ -10,12 +10,13 @@ import {
 } from '../actions/types';
 
 import firebase from 'firebase';
+import _ from 'lodash';
 
 const INITIAL_STATE = {token:null}
 
 
 export default function(state=INITIAL_STATE, action){
-
+  console.log('inside reducer, this is what im doing', action.type)
   switch(action.type) {
     case FACEBOOK_LOGIN_SUCCESS:
 
@@ -34,22 +35,9 @@ export default function(state=INITIAL_STATE, action){
       return {...state, friendList: action.payload}
 
     case ADD_FRIEND:
-      //adds friend with firebase and returns the friend, firebase should update the friend list in props
-
-      //check if friend already exists in database, if so, console log it
-      // firebase.database().ref(`/users/${state.profile.id}/friends`).once("value", function(snapshot){
-      //   console.log('here at least')
-      //   //console.log(snapshot)
-      //   if (!snapshot.hasChild(action.payload.toString())) {
-      //     firebase.database().ref(`users/${state.profile.id}/friends`).push(action.payload).catch()
-      //   } else {
-      //     console.log('friend is already here!')
-      //   }
-      // });
-
-      //do it legit
-
-      firebase.database().ref(`users/${state.profile.id}/friends/${action.payload}`).update({'isFriend':true});
+    
+      //expects action.payload to be an object of a friend candidate with properties 'name' and 'id'
+      firebase.database().ref(`users/${state.profile.id}/friends/${action.payload.id}`).update({'isFriend':true});
 
 
       return state
@@ -66,18 +54,24 @@ export default function(state=INITIAL_STATE, action){
     case UPDATE_AVAIL:
     //change state in firebase and in props
       console.log('inside update avail, state is ',state.profile)
-      firebase.database().ref(`users/${state.profile.id}`).update({'available':action.payload}).catch()
+      //firebase.database().ref(`users/${state.profile.id}`).update({'available':action.payload}).catch()
+
       return {...state, available : action.payload }
 
     case FETCH_FRIENDS:
+      let stateClone = _.cloneDeep(state);
       //takes the array from actions.payload (aka my friends array) then grabs the data from the keys in my overall object
       console.log('fetching friends in reducer',action.payload)
-      return {...state, friends: {...state.friends,
-                                  [action.payload.profile.id]:{  'name': action.payload.profile.name,
-                                        'available': action.payload.available
-                                      }
-                                  } 
-            }
+      return {
+        ...stateClone,
+        friends: {
+          ...stateClone.friends,
+          [action.payload.profile.id]: { 
+            'name': action.payload.profile.name,
+            'available': action.payload.available
+          }
+        },
+      };
     default:
       return state;
   }

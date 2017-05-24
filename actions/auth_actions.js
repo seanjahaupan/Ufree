@@ -72,7 +72,7 @@ export const facebookFetchData = () => {
   return (dispatch, store) => {
     const id = store().auth.profile.id //grabs users id from the Redux store
     let ref = firebase.database().ref(`/users/${id}`).on("value", function(snapshot) { //grabs data in firebase
-
+    console.log('fetching facebook')
     dispatch( { type: FACEBOOK_FETCH_DATA, payload: snapshot.val() });
   
   });
@@ -80,7 +80,10 @@ export const facebookFetchData = () => {
 };
 
 export const addFriend = (newFriend) => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    console.log('adding friend in actions', newFriend)
+    let state = getState()
+    firebase.database().ref(`users/${state.auth.profile.id}/friends/${newFriend.id}`).update({'isFriend':true});
     dispatch( {type: ADD_FRIEND, payload: newFriend })
   }
 }
@@ -101,23 +104,51 @@ export const facebookLogout = () => async (dispatch) => {
 }
 
 export const updateAvailability = (availability) => {
-  return (dispatch) => {
+  
+  return (dispatch,getState) => {
+    let state=getState();
+    console.log('state in update avail', state)
+    firebase.database().ref(`users/${state.auth.profile.id}`).update({'available':availability}).catch()
+
     dispatch( {type: UPDATE_AVAIL, payload: availability})
   }
 }
 
 export const fetchFriends = () => {
+
+  //temporary hardcode my friends
+  // return(dispatch,store) => {
+  //   const friends = {'10156176922324972':{isFriend:true},'1451276544894338':{isFriend:true},'10158878031270651':{isFriend:true} }
+  //   console.log(friends)
+  //   _.forEach(friends,(val, key)=>{
+  //         //console.log('inside map', key)
+  //         //key is the friends id
+  //           console.log('inside for each val, key', key)
+  //           firebase.database().ref(`/users/${key}`).on('value', (snapshot) => {
+  //           console.log('inside the friend array', snapshot.val())
+  //           let friendStatus = snapshot.val()
+  //           if(friendStatus){
+  //             //only dispatch if snapshot.val is not null (won't show any bad friends)
+  //             console.log('firebase found data', snapshot.val())
+              
+  //             dispatch({type:FETCH_FRIENDS, payload: friendStatus})
+  //           }
+  //         });
+
+  //      });
+  // }
+  ////////////////////////
   return(dispatch, store) => {
     const id = store().auth.profile.id
     firebase.database().ref(`/users/${id}/friends`).on('value', function(snapshot){
-      //console.log('fetch friends array',snapshot.val())
+      console.log('fetch friends array',snapshot.val())
       //dispatch({type: FETCH_FRIENDS, payload:snapshot.val() });
        _.forEach(snapshot.val(),(val, key)=>{
         //console.log('inside map', key)
         //key is the friends id
 
           firebase.database().ref(`/users/${key}`).on('value', function(snapshot){
-            //console.log('inside the friend array', snapshot.val())
+            console.log('inside the friend array', snapshot.val())
             if(snapshot.val()){
               //only dispatch if snapshot.val is not null (won't show any bad friends)
               //console.log('firebase found data', snapshot.val())

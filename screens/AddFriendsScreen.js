@@ -5,6 +5,8 @@ import CandidateItem from '../components/CandidateItem'
 import firebase from 'firebase';
 import _ from 'lodash';
 
+import { addFriend } from '../actions'
+
 
 class AddFriendsScreen extends Component{
   static route = {
@@ -16,37 +18,10 @@ class AddFriendsScreen extends Component{
   state = {candidateObject: {}}
 
   async onChangeText(value){
-    console.log(value)
-
-    //OPPA FACEBOOK SEARCH STYLEEEEEE
-    // let searchList = await fetch(
-    // ////////HARDCODED AUTH IMPORTANT, TAKE OUT!!
-    // `https://graph.facebook.com/search?q='${value}'&type=user`,{method: 'GET', headers: {authorization: `OAuth ${this.props.token}`}}
-    // //////////////////
-    // );
-    // searchList = await searchList.json()
-    // const dataArray = searchList.data
-
-    // if (dataArray){
-    //   this.setState({...this.state, dataArray });
-    // } else {
-    //   this.setState({...this.state, dataArray: {}})
-    // }
     
-    await firebase.database().ref('users').orderByChild('profile/name').startAt(value).endAt(`${value}~`).once("value", (snapshot) => {
-      
+    await firebase.database().ref('users').orderByChild('profile/name').startAt(value).endAt(`${value}~`).once("value", (snapshot) => {   
       //changes state once i get the object
       this.setState({...this.state, candidateObject:snapshot.val()})
-      // if (snapshot.val()){
-      //    dataArray = _.map(snapshot.val(), (value)=>{
-      //     return value.profile
-          
-      //   });
-      // }
-      // console.log(dataArray)
-
-      //do stuff here to add the data to my listview, foreach method
-      //this.setState({...this.state, dataArray })
 
   });
 
@@ -57,7 +32,6 @@ class AddFriendsScreen extends Component{
     this.createDataSource(this.state)
   }
   componentWillUpdate(nextProps,nextState) {
-    console.log('updated component stawte is ', nextState)
     this.createDataSource(nextState)
   }
 
@@ -81,7 +55,10 @@ class AddFriendsScreen extends Component{
       "Add Friend",
       `Are you sure you want to add ${candidate.name} as a friend?`,
       [
-        {text: 'Yes', onPress: () => console.log('you got a new friend')},
+        {text: 'Yes', onPress: () => {
+          console.log('you got a new friend')
+          this.props.addFriend(candidate)
+        }},
         {text: 'No', onPress: () => console.log('you are cold hearted')}
       ]
     )
@@ -148,4 +125,4 @@ const styles = StyleSheet.create({
 function mapStateToProps({auth}){
   return {token: auth.token}
 }
-export default connect(mapStateToProps)(AddFriendsScreen);
+export default connect(mapStateToProps, {addFriend})(AddFriendsScreen);
