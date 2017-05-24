@@ -9,7 +9,8 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ListView
+  ListView,
+  //SwipeableListView
 } from 'react-native';
 import _ from 'lodash';
 import { updateAvailability, fetchFriends } from '../actions';

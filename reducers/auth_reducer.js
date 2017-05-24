@@ -37,16 +37,16 @@ export default function(state=INITIAL_STATE, action){
     case ADD_FRIEND:
     
       //expects action.payload to be an object of a friend candidate with properties 'name' and 'id'
-      firebase.database().ref(`users/${state.profile.id}/friends/${action.payload.id}`).update({'isFriend':true});
+      
 
 
       return state
 
     case DEL_FRIEND:
-      //try the employee way where i can get the uid
-      //firebase.database().ref(`users/${state.profile.id}/friends`).orderByChild('id').equalTo(action.payload).remove
-      firebase.database().ref(`users/${state.profile.id}/friends/${action.payload}`).update({'isFriend':null});
-      return state
+      //takes the array from actions.payload (aka my friends array) then grabs the data from the keys in my overall object
+      console.log('deleting friend in reducer',action.payload)
+      let filteredObject = _.omit(state, action.payload.id);
+      return { filteredObject };
 
     case FACEBOOK_LOGOUT:
       return INITIAL_STATE
