@@ -36,22 +36,31 @@ class RootNavigation extends React.Component {
       );
     } else {
       return (
-        <TabNavigation tabBarHeight={56} initialTab="home">
+        <TabNavigation 
+          tabBarHeight={56} 
+          initialTab="home"
+          navigatorUID='main'
+          >
           <TabNavigationItem
             id="home"
+            navigatorUID='home'
             renderIcon={isSelected => this._renderIcon('home', isSelected)}>
+            
             <StackNavigation initialRoute="home" />
           </TabNavigationItem>
 
           <TabNavigationItem
             id="addFriends"
+            navigatorUID='addFriends'
             renderIcon={isSelected => this._renderIcon('plus-square', isSelected)}>
             <StackNavigation initialRoute="addFriends" />
           </TabNavigationItem>
 
           <TabNavigationItem
+            navigatorUID='chat'
             id="chat"
             renderIcon={isSelected => this._renderIcon('wechat', isSelected)}>
+            
             <StackNavigation initialRoute="chat" />
           </TabNavigationItem>
      

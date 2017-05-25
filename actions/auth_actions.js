@@ -19,7 +19,7 @@ import _ from 'lodash';
 //AsyncStorage.getItem('fb_token');
 
 export const facebookLogin = () => async dispatch => {
-  console.log(AsyncStorage)
+  console.log('asyncstorage is ', AsyncStorage)
   let token = await AsyncStorage.getItem('fb_token');
   let profile = JSON.parse(await AsyncStorage.getItem('fb_profile')) 
 
@@ -53,7 +53,6 @@ const doFacebookLogin = async dispatch => {
   await AsyncStorage.setItem('fb_profile', JSON.stringify(profile));
   authenticate(token)
 
-  
   dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: {token,profile} });
 
 
@@ -89,9 +88,9 @@ export const addFriend = (newFriend) => {
 }
 
 export const deleteFriend = (badFriend) => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     //do i even need to redux?
-    let state = getState()
+    //let state = getState()
     dispatch( {type: DEL_FRIEND, payload: badFriend })
 
   }
@@ -119,28 +118,6 @@ export const updateAvailability = (availability) => {
 
 export const fetchFriends = () => {
 
-  //temporary hardcode my friends
-  // return(dispatch,store) => {
-  //   const friends = {'10156176922324972':{isFriend:true},'1451276544894338':{isFriend:true},'10158878031270651':{isFriend:true} }
-  //   console.log(friends)
-  //   _.forEach(friends,(val, key)=>{
-  //         //console.log('inside map', key)
-  //         //key is the friends id
-  //           console.log('inside for each val, key', key)
-  //           firebase.database().ref(`/users/${key}`).on('value', (snapshot) => {
-  //           console.log('inside the friend array', snapshot.val())
-  //           let friendStatus = snapshot.val()
-  //           if(friendStatus){
-  //             //only dispatch if snapshot.val is not null (won't show any bad friends)
-  //             console.log('firebase found data', snapshot.val())
-              
-  //             dispatch({type:FETCH_FRIENDS, payload: friendStatus})
-  //           }
-  //         });
-
-  //      });
-  // }
-  ////////////////////////
   return(dispatch, store) => {
     const id = store().auth.profile.id
     firebase.database().ref(`/users/${id}/friends`).on('value', function(snapshot){

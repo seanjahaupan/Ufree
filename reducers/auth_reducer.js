@@ -37,16 +37,15 @@ export default function(state=INITIAL_STATE, action){
     case ADD_FRIEND:
     
       //expects action.payload to be an object of a friend candidate with properties 'name' and 'id'
-      
-
 
       return state
 
     case DEL_FRIEND:
       //takes the array from actions.payload (aka my friends array) then grabs the data from the keys in my overall object
       console.log('deleting friend in reducer',action.payload)
-      let filteredObject = _.omit(state, action.payload.id);
-      return { filteredObject };
+      let filteredObject = _.omit(state.friends, action.payload.id);
+      console.log('this is my filtered item' , filteredObject)
+      return { ...state, friends:filteredObject };
 
     case FACEBOOK_LOGOUT:
       return INITIAL_STATE

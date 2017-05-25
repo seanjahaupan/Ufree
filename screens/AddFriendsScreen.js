@@ -67,8 +67,11 @@ class AddFriendsScreen extends Component{
 
   addFriend(candidate) {
     this.props.addFriend(candidate) //send to redux
-    console.log('inside add friends props are', this.props);
-    this.props.navigator.replace(Router.getRoute('home'));
+    
+    this.props.navigation.performAction(({tabs, stacks}) => {
+      //switch back to home page
+      tabs('main').jumpToTab('home');
+    });
   }
   renderRow(candidate) {
     

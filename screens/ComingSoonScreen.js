@@ -65,6 +65,20 @@ class ComingSoonScreen extends Component{
             title = 'fetch friends'
             onPress = {() => {this.props.fetchFriends()}}
           />
+          <Button
+            title = 'jump to home'
+            onPress = {() => {
+              //this.props.navigation.jumpToTab('home')
+              console.log('props are ', this.props)
+              //this.props.navigator.jumpToTab('home')
+              this.props.navigation.performAction(({tabs, stacks}) => {
+                
+                tabs('main').jumpToTab('home');
+                //console.log('tabs',tabs, 'stacks', stacks)
+                //tabs('chat').jumpToTab('home')
+            });
+            }}
+          />
 
         </View>
     );
