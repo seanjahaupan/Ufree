@@ -15,9 +15,6 @@ import firebase from 'firebase';
 import _ from 'lodash';
 
 
-//AsyncStorage.setItem('fb_token', token);
-//AsyncStorage.getItem('fb_token');
-
 export const facebookLogin = () => async dispatch => {
   console.log('asyncstorage is ', AsyncStorage)
   let token = await AsyncStorage.getItem('fb_token');
