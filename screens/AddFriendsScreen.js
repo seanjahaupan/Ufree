@@ -18,19 +18,31 @@ class AddFriendsScreen extends Component{
 
   state = {candidateObject: {}}
 
-  async onChangeText(value){
+  onChangeText(text){
     
-    await firebase.database().ref('users').orderByChild('profile/name').startAt(value).endAt(`${value}~`).once("value", (snapshot) => {   
-      //changes state once i get the object
-      this.setState({...this.state, candidateObject:snapshot.val()})
+  //   await firebase.database().ref('users').orderByChild('profile/name').startAt(value).endAt(`${value}~`).once("value", (snapshot) => {   
+  //     //changes state once i get the object
+  //     this.setState({...this.state, candidateObject:snapshot.val()})
 
-  });
+  // });
+    console.log(this.state)
+    let candidateList = _.filter(this.state.candidatePopulation, (value, key) => {
+      console.log(value.profile.name)
+      if (value.profile.name.startsWith(text)){
+        return value
+      }
 
+    })
 
+    this.setState({...this.state, candidateObject:candidateList})
   }
 
   componentWillMount() {
     this.createDataSource(this.state)
+    firebase.database().ref('users').orderByChild('profile/name').once('value', (snapshot) => {
+      this.setState({...this.state, candidatePopulation:snapshot.val()})
+    });
+
   }
   componentWillUpdate(nextProps,nextState) {
     this.createDataSource(nextState)
