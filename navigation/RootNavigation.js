@@ -55,6 +55,13 @@ class RootNavigation extends React.Component {
             renderIcon={isSelected => this._renderIcon('plus-square', isSelected)}>
             <StackNavigation initialRoute="addFriends" />
           </TabNavigationItem>
+
+          <TabNavigationItem
+            id="settings"
+            navigatorUID='settings'
+            renderIcon={isSelected => this._renderIcon('cog', isSelected)}>
+            <StackNavigation initialRoute="settings" />
+          </TabNavigationItem>
           {/*This section is for debugging purposes only!*/}
           {/*<TabNavigationItem
             navigatorUID='chat'
