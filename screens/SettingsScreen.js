@@ -1,8 +1,11 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { ExpoConfigView } from '@expo/samples';
+import {connect} from 'react-redux';
+import { facebookLogout } from '../actions'
+import { Button } from 'react-native-elements';
 
-export default class SettingsScreen extends React.Component {
+class SettingsScreen extends React.Component {
   static route = {
     navigationBar: {
       title: 'exp.json',
@@ -12,12 +15,15 @@ export default class SettingsScreen extends React.Component {
   render() {
     return (
       <ScrollView
+      //To Do, make this logoutscreen look prettier
         style={styles.container}
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
-
-        {/* Go ahead and delete ExpoConfigView and replace it with your
-           * content, we just wanted to give you a quick view of your config */}
-        <ExpoConfigView />
+          <Button 
+            title = 'log out'
+            onPress = {() => {
+              console.log('loggingout')
+              this.props.facebookLogout()
+            }}/>
 
       </ScrollView>
     );
@@ -29,3 +35,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+
+export default connect(null, {facebookLogout})(SettingsScreen);
