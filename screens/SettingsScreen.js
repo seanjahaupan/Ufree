@@ -8,7 +8,7 @@ import { Button } from 'react-native-elements';
 class SettingsScreen extends React.Component {
   static route = {
     navigationBar: {
-      title: 'exp.json',
+      title: 'Settings',
     },
   };
 
@@ -20,6 +20,7 @@ class SettingsScreen extends React.Component {
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
           <Button 
             title = 'log out'
+            backgroundColor = 'blue'
             onPress = {() => {
               console.log('loggingout')
               this.props.facebookLogout()
