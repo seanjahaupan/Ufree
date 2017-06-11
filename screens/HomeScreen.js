@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
   ListView,
+  ActivityIndicator
   //SwipeableListView
 } from 'react-native';
 import _ from 'lodash';
@@ -21,13 +22,14 @@ import ProfileListItem from '../components/ProfileListItem'
 import FriendListItem from '../components/FriendListItem'
 
 class HomeScreen extends React.Component {
+
+  state = { loading : true};
   static route = {
     navigationBar: {
       //visible: false,
       title: 'UFree'
     },
   };
-//SET UP FOR LIST VIEW, uncomment this!
   componentWillMount() {
     //fetch friends here add funtion
 
@@ -37,11 +39,10 @@ class HomeScreen extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //next props received when i get new friends
-    console.log('component will receive nextprops', nextProps)
-    //this.props.fetchFriends()
     
     this.createDataSource(nextProps)
+
+    this.setState( {...this.state, loading:false });
   }
 
   createDataSource({friends}) {
@@ -50,22 +51,34 @@ class HomeScreen extends React.Component {
     });
 
     this.dataSource = ds.cloneWithRows(friends);
+
   }
 
   renderRow(friend){
+
     return <FriendListItem friend = {friend} />;
   }
   render() {
-    return (
-      <View style={styles.container}>
-        <ProfileListItem />
-        <ListView
-          enableEmptySections
-          dataSource={this.dataSource}
-          renderRow={(friend) => this.renderRow(friend)}
-        />  
-      </View>
-    );
+    if (this.state.loading) {
+      //show loading screen if we're loading
+      return (
+        <View>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+    else {
+      return (
+        <View style={styles.container}>
+          <ProfileListItem />
+          <ListView
+            enableEmptySections
+            dataSource={this.dataSource}
+            renderRow={(friend) => this.renderRow(friend)}
+          />  
+        </View>
+      );
+    }
   }
 
  
