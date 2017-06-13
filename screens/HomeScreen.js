@@ -59,7 +59,8 @@ class HomeScreen extends React.Component {
     return <FriendListItem friend = {friend} />;
   }
   render() {
-    if (this.state.loading) {
+    //temporarily remove loading from home screen, make loading screen look the same throughout the app
+    /*if (this.state.loading) {
       //show loading screen if we're loading
       return (
         <View>
@@ -67,7 +68,7 @@ class HomeScreen extends React.Component {
         </View>
       );
     }
-    else {
+    else {*/
       return (
         <View style={styles.container}>
           <ProfileListItem />
@@ -79,7 +80,7 @@ class HomeScreen extends React.Component {
         </View>
       );
     }
-  }
+  //}
 
  
 }
