@@ -52,7 +52,7 @@ class AppContainer extends React.Component {
   }
 
   render() {
-    if (this.state.appIsReady) {
+    //if (this.state.appIsReady) {
       return (
         <Provider store = {store}>
           <View style={styles.container}>
@@ -71,9 +71,9 @@ class AppContainer extends React.Component {
           </View>
         </Provider>
       );
-    } else {
-      return <Expo.AppLoading />;
-    }
+  //   } else {
+  //     return <Expo.AppLoading />;
+  //   }
   }
 }
 
