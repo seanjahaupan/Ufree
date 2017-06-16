@@ -20,6 +20,7 @@ class AppContainer extends React.Component {
 
   componentWillMount() {
     //this makes the loading appear
+    
     this._loadAssetsAsync();
     const config = {
       apiKey: "AIzaSyAd5hMEa3j5TTgxbcaszv4g4Jxj356A_Vg",
