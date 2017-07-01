@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Router from '../navigation/Router'
+
 
 class AuthScreen extends Component{
 
@@ -23,10 +24,19 @@ class AuthScreen extends Component{
   }
 
   render(){
-    return(
+    /*return(
       <View style ={styles.AuthScreenStyle}>
         <Button title='log in here' onPress={()=> this.logIn()}/>
       </View>
+    );*/
+    return(
+      <Image 
+        source = {require('../assets/images/introSplash.png')}
+        style = {styles.splashPage}
+      >
+      {/*fix button position*/}
+        <Button title='log in here' backgroundColor='blue' onPress={()=> this.logIn()}/>
+      </Image>
     );
   }
 
@@ -41,6 +51,12 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  splashPage: {
+    flex:1,
+    height:null,
+    width:null,
+    resizeMode:'stretch'
   }
 });
 

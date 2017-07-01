@@ -75,7 +75,7 @@ class AppContainer extends React.Component {
         </Provider>
       );
       //need to find where expo.apploading is
-      //more junk
+      //more junk 
   //   } else {
     
   //     return <Expo.AppLoading />;
