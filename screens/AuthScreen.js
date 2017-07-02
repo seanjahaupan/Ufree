@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Router from '../navigation/Router'
 
 
+const SCREEN_WIDTH = Dimensions.get('window').width
 class AuthScreen extends Component{
 
   componentDidMount() {
@@ -31,17 +32,22 @@ class AuthScreen extends Component{
     );*/
     return(
       <Image 
-        source = {require('../assets/images/introSplash.png')}
+        source = {require('../assets/images/splashScreen.png')}
         style = {styles.splashPage}
       >
       {/*fix button position*/}
-        <Button title='log in here' backgroundColor='blue' onPress={()=> this.logIn()}/>
+        <Button 
+          title='log in here' 
+          backgroundColor='#87F2FA' 
+          onPress={()=> this.logIn()}
+          style = {styles.buttonStyle}
+        />
       </Image>
     );
   }
 
   logIn() {
-    this.props.facebookLogin();
+    this.props.doFacebookLogin();
     
   }
 }
@@ -57,6 +63,16 @@ const styles = StyleSheet.create({
     height:null,
     width:null,
     resizeMode:'stretch'
+  },
+  buttonStyle: {
+    //flex:1,
+    position:'absolute',
+    bottom:50,
+    //justifyContent:'center',
+    //alignItems:'center',
+    height:null,
+    width:SCREEN_WIDTH //edit this later to screen width
+
   }
 });
 

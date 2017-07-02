@@ -20,6 +20,10 @@
     "assetExts": ["ttf"]
   },
   "ios": {
-    "supportsTablet": true
+    "supportsTablet": true,
+    "bundleIdentifier": "com.pandamonium.ufree"
+  },
+  "android":{
+    "package":"com.pandamonium.ufree"
   }
 }

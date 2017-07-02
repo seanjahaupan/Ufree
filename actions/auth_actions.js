@@ -26,14 +26,15 @@ export const facebookLogin = () => async dispatch => {
   if (token && profile) {
     // dispatch an action to say FB login is done
     dispatch({type: FACEBOOK_LOGIN_SUCCESS, payload: {token, profile}});
-  } else {
-    // start up fb login process
-    doFacebookLogin(dispatch);
   }
+  // } else {
+  //   // start up fb login process
+  //   doFacebookLogin(dispatch);
+  // }
 
 }; 
 
-const doFacebookLogin = async dispatch => {
+export const doFacebookLogin = () =>async dispatch => {
   let {type, token} = await Facebook.logInWithReadPermissionsAsync('864048573736511', {
     permissions: ['public_profile']
   });
