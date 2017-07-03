@@ -36,12 +36,15 @@ class AuthScreen extends Component{
         style = {styles.splashPage}
       >
       {/*fix button position*/}
-        <Button 
-          title='log in here' 
-          backgroundColor='#87F2FA' 
-          onPress={()=> this.logIn()}
-          style = {styles.buttonStyle}
-        />
+      <View
+        style = {styles.flexStyle}>
+          <Button 
+            title='log in here today' 
+            backgroundColor='#87F2FA' 
+            onPress={()=> this.logIn()}
+            style = {styles.buttonStyle}
+          />
+        </View>
       </Image>
     );
   }
@@ -65,14 +68,15 @@ const styles = StyleSheet.create({
     resizeMode:'stretch'
   },
   buttonStyle: {
-    //flex:1,
-    position:'absolute',
-    bottom:50,
-    //justifyContent:'center',
-    //alignItems:'center',
-    height:null,
-    width:SCREEN_WIDTH //edit this later to screen width
+  
+     height:null,
+     width:SCREEN_WIDTH
 
+  },
+  flexStyle: {
+    flex:1,
+    justifyContent:'flex-end',
+    paddingBottom:40
   }
 });
 

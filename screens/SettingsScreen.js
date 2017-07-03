@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Dimensions, Image } from 'react-native';
+import { ScrollView, StyleSheet, Dimensions, Image, View } from 'react-native';
 import { ExpoConfigView } from '@expo/samples';
 import {connect} from 'react-redux';
 import { facebookLogout } from '../actions'
@@ -21,14 +21,17 @@ class SettingsScreen extends React.Component {
         source = {require('../assets/images/splashScreen.png')}
         style = {styles.splashPage}
       >
-        <Button 
-          title='log out' 
-          backgroundColor='#87F2FA' 
-          onPress = {() => {
-              this.props.facebookLogout()
-          }}
-          style = {styles.buttonStyle}
-        />
+       <View
+        style = {styles.flexStyle}>
+          <Button 
+            title='log out' 
+            backgroundColor='#87F2FA' 
+            onPress = {() => {
+                this.props.facebookLogout()
+            }}
+            style = {styles.buttonStyle}
+          />
+        </View>
       </Image>
     );
     
@@ -36,20 +39,23 @@ class SettingsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    buttonStyle: {
-    position:'absolute',
-    bottom:50,
-    //justifyContent:'center',
-    //alignItems:'center',
-    width:SCREEN_WIDTH //edit this later to screen width
-
-  },
   splashPage: {
     flex:1,
     height:null,
     width:null,
     resizeMode:'stretch'
   },
+   buttonStyle: {
+  
+     height:null,
+     width:SCREEN_WIDTH
+
+  },
+  flexStyle: {
+    flex:1,
+    justifyContent:'flex-end',
+    paddingBottom:40
+  }
 });
 
 
