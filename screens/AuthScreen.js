@@ -39,7 +39,7 @@ class AuthScreen extends Component{
       <View
         style = {styles.flexStyle}>
           <Button 
-            title='log in here today' 
+            title='log in here' 
             backgroundColor='#87F2FA' 
             onPress={()=> this.logIn()}
             style = {styles.buttonStyle}
