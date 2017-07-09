@@ -39,9 +39,7 @@ export const doFacebookLogin = () =>async dispatch => {
     permissions: ['public_profile']
   });
 
-  if (type === 'cancel') {
-    return dispatch({ type: FACEBOOK_LOGIN_FAIL });
-  }
+  
   //grabbing token
   await AsyncStorage.setItem('fb_token', token);
   const result = await fetch(
