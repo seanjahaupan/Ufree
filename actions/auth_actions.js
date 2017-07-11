@@ -30,7 +30,7 @@ export const facebookLogin = () => async dispatch => {
   // } else {
   //   // start up fb login process
   //   doFacebookLogin(dispatch);
-  // }
+  // }  
 
 }; 
 
