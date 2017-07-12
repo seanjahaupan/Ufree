@@ -32,6 +32,8 @@ export const facebookLogin = () => async dispatch => {
   //   doFacebookLogin(dispatch);
   // }  
 
+  //check what happens when i launch facebook login on android without the other stuff. Just emulate video
+
 }; 
 
 export const doFacebookLogin = () =>async dispatch => {
