@@ -28,6 +28,7 @@ export const facebookLogin = () => async dispatch => {
     dispatch({type: FACEBOOK_LOGIN_SUCCESS, payload: {token, profile}});
   }
   // } else {
+    
   //   // start up fb login process
   //   doFacebookLogin(dispatch);
   // }  
