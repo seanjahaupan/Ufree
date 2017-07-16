@@ -28,7 +28,7 @@ export const facebookLogin = () => async dispatch => {
     dispatch({type: FACEBOOK_LOGIN_SUCCESS, payload: {token, profile}});
   }
   // } else {
-    
+
   //   // start up fb login process
   //   doFacebookLogin(dispatch);
   // }  
@@ -67,6 +67,7 @@ const authenticate = (token) => {
 
 export const facebookFetchData = () => {
 //uses redux thunk, passes in dispatch and store to get the redux store
+
   return (dispatch, store) => {
     const id = store().auth.profile.id //grabs users id from the Redux store
     let ref = firebase.database().ref(`/users/${id}`).on("value", function(snapshot) { //grabs data in firebase
