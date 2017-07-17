@@ -91,6 +91,7 @@ export const deleteFriend = (badFriend) => {
   return (dispatch) => {
     //do i even need to redux?
     //let state = getState()
+    
     dispatch( {type: DEL_FRIEND, payload: badFriend })
 
   }
